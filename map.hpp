@@ -1,19 +1,21 @@
 #pragma onse
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "figure.hpp"
 
-class Frame {
+class Map {
 private:
 
-    std::vector<sf::RectangleShape> objects;
+    std::vector<Figure> objects;
 
 public:
 
-    Frame();
+    Map();
 
     void draw(sf::RenderWindow&);
 
 private:
-    
+
     void generate();
+
 };

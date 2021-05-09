@@ -1,11 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "frame.hpp"
+#include "screen.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1800, 900), "Pseudo-3D Game");
-    Frame frame;
+    
+    Screen screen;
 
     while (window.isOpen())
     {
@@ -17,9 +18,9 @@ int main() {
         }
 
         window.clear(sf::Color::Black);
-        frame.draw(window);
+        screen.draw(window);
         window.display();
     }
-
+    
     return 0;
 }
