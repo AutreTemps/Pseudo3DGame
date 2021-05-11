@@ -11,9 +11,13 @@ void Frame::generate() {
     vertical_delim.setPosition(sf::Vector2f(400.f, 0.f));
     objects.push_back(vertical_delim);
 
-    sf::RectangleShape horizontal_delim(sf::Vector2f(400.f, 5.f));
-    horizontal_delim.setPosition(sf::Vector2f(0.f, 400.f));
-    objects.push_back(horizontal_delim);
+    sf::RectangleShape horizontal_delim1(sf::Vector2f(400.f, 5.f));
+    horizontal_delim1.setPosition(sf::Vector2f(0.f, 400.f));
+    objects.push_back(horizontal_delim1);
+
+    sf::RectangleShape horizontal_delim2(sf::Vector2f(400.f, 5.f));
+    horizontal_delim2.setPosition(sf::Vector2f(0.f, 500.f));
+    objects.push_back(horizontal_delim2);
 
     sf::RectangleShape edge_l(sf::Vector2f(5.f, 900.f));
     edge_l.setPosition(sf::Vector2f(0.f, 0.f));

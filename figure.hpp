@@ -1,14 +1,16 @@
 #pragma onse
 #include <SFML/Graphics.hpp>
 
+enum Type {
+    TRIANGLE,
+    RECTANGLE,
+    CIRCLE
+};
+
 class Figure : public sf::RectangleShape, public sf::CircleShape, public sf::VertexArray {
 private:
 
-    char type;
-
-    static const char RECTANGLE = 'r';
-    static const char CIRCLE = 'c';
-    static const char TRIANGLE = 't';
+    Type type;
 
 public:
 
