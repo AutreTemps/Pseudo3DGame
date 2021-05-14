@@ -7,11 +7,11 @@ class Camera {
 private:
 
     sf::CircleShape player;
-    std::vector<std::pair<float, sf::Vertex>> seeing;
+    std::vector<sf::Vertex> seeing;
     float direction;
     const float viewing_angle = 20.f;
     const float movement_speed = 0.1f;
-    const float rotation_speed = 1.f;
+    const float rotation_speed = 0.2f;
 
 public:
 
@@ -19,7 +19,7 @@ public:
 
     void draw(sf::RenderWindow&);
 
-    void update(float&);
+    void update(const float&);
 
 private:
 
