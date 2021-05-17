@@ -8,11 +8,11 @@ Figure::Figure(const sf::RectangleShape& rect) : sf::RectangleShape(rect) {
     type = RECTANGLE;
 }
 
-Figure::Figure(const sf::VertexArray& rect) : sf::VertexArray(rect) {
+Figure::Figure(const sf::VertexArray& arr) : sf::VertexArray(arr) {
     type = TRIANGLE;
 }
 
-void Figure::draw(sf::RenderWindow& window) {
+void Figure::draw(sf::RenderWindow& window) const {
     if (type == RECTANGLE) {
         window.draw((sf::RectangleShape) *this);
     }
@@ -35,5 +35,29 @@ void Figure::setFillColor(const sf::Color& color) {
         for (int i = 0; i < this->getVertexCount(); ++i) {
             (*this)[i].color = color;
         }
+    }
+}
+
+std::size_t Figure::getPointCount() const {
+    if (type == RECTANGLE) {
+        return sf::RectangleShape::getPointCount();
+    }
+    else if (type == CIRCLE) {
+        return sf::CircleShape::getPointCount();
+    }
+    else if (type == TRIANGLE) {
+        return sf::VertexArray::getVertexCount();
+    }
+}
+
+sf::Vector2f Figure::getPoint(std::size_t index) const {
+    if (type == RECTANGLE) {
+        return sf::RectangleShape::getPoint(index);
+    }
+    else if (type == CIRCLE) {
+        return sf::CircleShape::getPoint(index);
+    }
+    else if (type == TRIANGLE) {
+        return ((sf::VertexArray) *this)[index].position;
     }
 }

@@ -1,16 +1,16 @@
 #pragma onse
 #include <SFML/Graphics.hpp>
 
-enum Type {
-    TRIANGLE,
-    RECTANGLE,
-    CIRCLE
-};
+
 
 class Figure : public sf::RectangleShape, public sf::CircleShape, public sf::VertexArray {
 private:
 
-    Type type;
+    enum Type {
+        TRIANGLE,
+        RECTANGLE,
+        CIRCLE
+    } type;
 
 public:
 
@@ -20,7 +20,12 @@ public:
     
     Figure(const sf::VertexArray&);
 
-    void draw(sf::RenderWindow&);
+    void draw(sf::RenderWindow&) const;
 
     void setFillColor(const sf::Color&);
+
+    std::size_t getPointCount() const;
+
+    sf::Vector2f getPoint(std::size_t) const;
+
 };

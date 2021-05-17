@@ -11,7 +11,7 @@ public:
 
     Frame();
 
-    void draw(sf::RenderWindow&);
+    void draw(sf::RenderWindow&) const;
 
 private:
     

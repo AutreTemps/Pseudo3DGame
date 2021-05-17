@@ -40,7 +40,7 @@ void Frame::generate() {
     }
 }
 
-void Frame::draw(sf::RenderWindow& window) {
+void Frame::draw(sf::RenderWindow& window) const {
     for (auto& object : objects) {
         window.draw(object);
     }

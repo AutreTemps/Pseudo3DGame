@@ -1,13 +1,12 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "screen.hpp"
-#include "camera.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1800, 900), "Pseudo-3D Game");
+    window.setMouseCursorVisible(false);
     
     Screen screen;
-    Camera camera;
     sf::Clock clock;
 
     while (window.isOpen())
@@ -28,9 +27,10 @@ int main() {
         }
         
         window.clear(sf::Color::Black);
+
+        screen.update(time);
         screen.draw(window);
-        camera.update(time);
-        camera.draw(window);
+        
         window.display();
     }
 

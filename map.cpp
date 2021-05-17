@@ -78,7 +78,7 @@ void Map::generate() {
     }
 }
 
-void Map::draw(sf::RenderWindow& window) {
+void Map::draw(sf::RenderWindow& window) const {
     for (auto& object : objects) {
         object.draw(window);
     }

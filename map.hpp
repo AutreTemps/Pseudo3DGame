@@ -12,7 +12,9 @@ public:
 
     Map();
 
-    void draw(sf::RenderWindow&);
+    void draw(sf::RenderWindow&) const;
+
+    Figure& operator[](std::size_t) const;
 
 private:
 
