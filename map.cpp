@@ -83,3 +83,11 @@ void Map::draw(sf::RenderWindow& window) const {
         object.draw(window);
     }
 }
+
+Figure& Map::operator[](std::size_t i) {
+    return objects[i];
+}
+
+std::size_t Map::getMapObjNumber() {
+    return objects.size();
+}

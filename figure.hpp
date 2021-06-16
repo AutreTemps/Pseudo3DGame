@@ -1,7 +1,5 @@
-#pragma onse
+#pragma once
 #include <SFML/Graphics.hpp>
-
-
 
 class Figure : public sf::RectangleShape, public sf::CircleShape, public sf::VertexArray {
 private:

@@ -1,4 +1,4 @@
-#pragma onse
+#pragma once
 #include "frame.hpp"
 #include "map.hpp"
 #include "camera.hpp"

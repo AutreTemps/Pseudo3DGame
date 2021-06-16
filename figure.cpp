@@ -48,6 +48,7 @@ std::size_t Figure::getPointCount() const {
     else if (type == TRIANGLE) {
         return sf::VertexArray::getVertexCount();
     }
+    return 0;
 }
 
 sf::Vector2f Figure::getPoint(std::size_t index) const {
@@ -60,4 +61,5 @@ sf::Vector2f Figure::getPoint(std::size_t index) const {
     else if (type == TRIANGLE) {
         return ((sf::VertexArray) *this)[index].position;
     }
+    return sf::Vector2f(0.f, 0.f);
 }

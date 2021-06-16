@@ -1,4 +1,4 @@
-#pragma onse
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "figure.hpp"
@@ -14,7 +14,9 @@ public:
 
     void draw(sf::RenderWindow&) const;
 
-    Figure& operator[](std::size_t) const;
+    Figure& operator[](std::size_t);
+
+    std::size_t getMapObjNumber();
 
 private:
 
