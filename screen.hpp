@@ -14,7 +14,7 @@ public:
 
     Screen();
 
-    void draw(sf::RenderWindow&) const;
+    void draw(sf::RenderWindow&);
 
     void update(const float&);
 

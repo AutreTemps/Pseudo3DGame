@@ -53,10 +53,10 @@ std::size_t Figure::getPointCount() const {
 
 sf::Vector2f Figure::getPoint(std::size_t index) const {
     if (type == RECTANGLE) {
-        return sf::RectangleShape::getPoint(index);
+        return sf::RectangleShape::getPoint(index) + sf::RectangleShape::getPosition();
     }
     else if (type == CIRCLE) {
-        return sf::CircleShape::getPoint(index);
+        return sf::CircleShape::getPoint(index) + sf::CircleShape::getPosition();
     }
     else if (type == TRIANGLE) {
         return ((sf::VertexArray) *this)[index].position;

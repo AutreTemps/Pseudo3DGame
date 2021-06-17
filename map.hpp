@@ -16,7 +16,7 @@ public:
 
     Figure& operator[](std::size_t);
 
-    std::size_t getMapObjNumber();
+    std::size_t getMapObjNumber() const;
 
 private:
 

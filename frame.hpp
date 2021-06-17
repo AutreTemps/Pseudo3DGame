@@ -6,7 +6,6 @@ class Frame {
 private:
 
     std::vector<sf::RectangleShape> objects;
-    //sf::Text demo_label;
 
 public:
 

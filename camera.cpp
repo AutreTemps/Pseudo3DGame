@@ -4,6 +4,41 @@
 
 #define PI 3.14159265
 
+double len(const sf::Vector2f& a, const sf::Vector2f& b) {
+    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+}
+
+double vector_multiply(const sf::Vector2f& a, const sf::Vector2f& b) {
+    return a.x * b.y - b.x * a.y;
+}
+
+bool check_intersection(const sf::Vector2f& a1, const sf::Vector2f& a2, 
+                        const sf::Vector2f& b1, const sf::Vector2f& b2) {
+
+    sf::Vector2f v1 = b1 - a1;
+    sf::Vector2f v2 = b2 - a1;
+    sf::Vector2f a = a2 - a1;
+    if (vector_multiply(a, v1) * vector_multiply(a, v2) < 0) {
+        return true;
+    }
+    return false;
+}
+
+sf::Vector2f find_intersection(const sf::Vector2f& a1, const sf::Vector2f& a2, 
+                                const sf::Vector2f& b1, const sf::Vector2f& b2) {
+
+    if (!(check_intersection(a1, a2, b1, b2) && check_intersection (b1, b2, a1, a2))) {
+        return a2;
+    }
+    sf::Vector2f v1 = b1 - a1;
+    sf::Vector2f v2 = b2 - a1;
+    sf::Vector2f a = a2 - a1;
+    double z1 = vector_multiply(a, v1);
+    double z2 = vector_multiply(a, v2);
+    return sf::Vector2f(b1.x + (b2.x - b1.x) * std::abs(z1 / (z2 - z1)), 
+                        b1.y + (b2.y - b1.y) * std::abs(z1 / (z2 - z1)));
+}
+
 Camera::Camera() {
     generate();
 }
@@ -18,10 +53,6 @@ void Camera::generate() {
 
     direction = 90;
     seeing.resize(360);
-    for (int i = 0; i < 360; ++i) {
-        area_of_seeing.push_back(sf::Vertex(sf::Vector2f(sin(i * PI / 180) * seeing_radius,
-                                                        cos(i * PI / 180) * seeing_radius)));
-    }
 
     demo = sf::CircleShape(8.f);
     demo.setOrigin(sf::Vector2f(8.f, 8.f));
@@ -30,17 +61,20 @@ void Camera::generate() {
     demo.setOutlineColor(sf::Color::White);
     demo.setPosition(sf::Vector2f(200.f, 700.f));
     demo_area.resize(360);
+
+    view.resize(viewing_angle * 2);
 }
 
 void Camera::draw(sf::RenderWindow& window) const {
     window.draw(player);
     window.draw(demo);
     window.draw(&demo_area[0], demo_area.size(), sf::Points);
+    window.draw(&view[0], view.size(), sf::TriangleFan);
 }
 
-void Camera::update(const float& time) {
+void Camera::update(const float& time, Map& map) {
     update_movement(time);
-    update_rays();
+    update_rays(map);
 }
 
 void Camera::update_movement(const float& time) {
@@ -74,14 +108,58 @@ void Camera::update_movement(const float& time) {
     }
 }
 
-void Camera::update_rays() {
+void Camera::update_rays(Map& map) {
     for (int i = 0; i < 360; ++i) {
-        seeing[i] = player.getPosition() + area_of_seeing[i].position;
+        seeing[i] = sf::Vertex(player.getPosition() + sf::Vector2f(cos(i * PI / 180) * seeing_radius,
+                                                                 -1 * sin(i * PI / 180) * seeing_radius));
     }
 
-
+    std::size_t n = map.getMapObjNumber();
+    for (int k = 0; k < 360; ++k) {
+        double min = seeing_radius;
+        for (std::size_t i = 0; i < n; ++i) {
+            std::size_t m = map[i].getPointCount();
+            for (std::size_t j = 0; j < m - 1; ++j) {
+                sf::Vector2f point = find_intersection(player.getPosition(), seeing[k].position,
+                                                map[i].getPoint(j), map[i].getPoint(j + 1));
+                float current_radius = len(player.getPosition(), point);
+                if (current_radius < min) {
+                    min = current_radius;
+                }
+            }
+            sf::Vector2f point = find_intersection(player.getPosition(), seeing[k].position,
+                                                map[i].getPoint(0), map[i].getPoint(m - 1));
+            float current_radius = len(player.getPosition(), point);
+            if (current_radius < min) {
+                min = current_radius;
+            }
+        }
+        seeing[k] = sf::Vertex(player.getPosition() + sf::Vector2f(cos(k * PI / 180) * min, -1 * sin(k * PI / 180) * min));
+    }
+    
     for (int i = 0; i < 360; ++i) {
-        demo_area[i] = sf::Vertex(sf::Vector2f((seeing[i].position - player.getPosition()).x * 3,
-                                            (seeing[i].position - player.getPosition()).y * 3) + demo.getPosition());
+        demo_area[i] = sf::Vertex(sf::Vector2f((seeing[i].position - player.getPosition()).x * 1.f,
+                                            (seeing[i].position - player.getPosition()).y * 1.f) + demo.getPosition());
+    }
+
+    view[0] = sf::Vertex(player.getPosition());
+    direction;
+    for (int i = 1; i < viewing_angle; ++i) {
+        int d = direction + i;
+        if (d >= 360) {
+            d -= 360;
+        }
+        view[i + viewing_angle] = seeing[d];
+    }
+    view[viewing_angle] = seeing[direction];
+    for (int i = 1; i < viewing_angle; ++i) {
+        int d = direction - i;
+        if (d < 0) {
+            d += 360;
+        }
+        view[viewing_angle - i] = seeing[d];
+    }
+    for (auto& v : view) {
+        v.color = sf::Color(190, 145, 125, 120);
     }
 }

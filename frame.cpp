@@ -38,20 +38,10 @@ void Frame::generate() {
     for (auto& object : objects) {
         object.setFillColor(FRAME_COLOR);
     }
-
-    /*sf::Font font;
-    font.loadFromFile("../res/JuraLight.ttf");
-    demo_label.setFont(font);
-    demo_label.setString("Ray-cast demo");
-    demo_label.setCharacterSize(24);
-    demo_label.setStyle(sf::Text::Bold);
-    demo_label.setFillColor(sf::Color::White);
-    demo_label.setPosition(sf::Vector2f(50.f, 410.f));*/
 }
 
 void Frame::draw(sf::RenderWindow& window) const {
     for (auto& object : objects) {
         window.draw(object);
-        //window.draw(demo_label);
     }
 }

@@ -25,7 +25,7 @@ void Map::generate() {
     objects.push_back(edge_b);
 
     sf::CircleShape column1(40, 4);
-    column1.setPosition(sf::Vector2f(160.f, 160.f));
+    column1.setPosition(sf::Vector2f(95.f, 110.f));
     objects.push_back(column1);
 
     sf::VertexArray triangle_lt(sf::Triangles, 3);
@@ -68,9 +68,8 @@ void Map::generate() {
     wall3.setPosition(sf::Vector2f(95.f, 340.f));
     objects.push_back(wall3);
 
-    sf::RectangleShape wall4(sf::Vector2f(10.f, 250.f));
-    wall4.setPosition(sf::Vector2f(15.f, 22.f));
-    wall4.rotate(-45);
+    sf::RectangleShape wall4(sf::Vector2f(10.f, 120.f));
+    wall4.setPosition(sf::Vector2f(130.f, 10.f));
     objects.push_back(wall4);
 
     for (auto& object : objects) {
@@ -88,6 +87,6 @@ Figure& Map::operator[](std::size_t i) {
     return objects[i];
 }
 
-std::size_t Map::getMapObjNumber() {
+std::size_t Map::getMapObjNumber() const {
     return objects.size();
 }
