@@ -1,5 +1,4 @@
 #include "camera.hpp"
-#include <iostream>
 #include <cmath>
 
 #define PI 3.14159265
@@ -72,12 +71,12 @@ void Camera::draw(sf::RenderWindow& window) const {
     window.draw(&view[0], view.size(), sf::TriangleFan);
 }
 
-void Camera::update(const float& time, Map& map) {
-    update_movement(time);
-    update_rays(map);
+void Camera::update(const double& time, Map& map) {
+    updateMovement(time);
+    updateRays(map);
 }
 
-void Camera::update_movement(const float& time) {
+void Camera::updateMovement(const double& time) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         player.move(sf::Vector2f(cos(direction * PI / 180) * movement_speed * time, 
                                 -1.f * sin(direction * PI / 180) * movement_speed * time));
@@ -108,7 +107,7 @@ void Camera::update_movement(const float& time) {
     }
 }
 
-void Camera::update_rays(Map& map) {
+void Camera::updateRays(Map& map) {
     for (int i = 0; i < 360; ++i) {
         seeing[i] = sf::Vertex(player.getPosition() + sf::Vector2f(cos(i * PI / 180) * seeing_radius,
                                                                  -1 * sin(i * PI / 180) * seeing_radius));
@@ -122,14 +121,14 @@ void Camera::update_rays(Map& map) {
             for (std::size_t j = 0; j < m - 1; ++j) {
                 sf::Vector2f point = find_intersection(player.getPosition(), seeing[k].position,
                                                 map[i].getPoint(j), map[i].getPoint(j + 1));
-                float current_radius = len(player.getPosition(), point);
+                double current_radius = len(player.getPosition(), point);
                 if (current_radius < min) {
                     min = current_radius;
                 }
             }
             sf::Vector2f point = find_intersection(player.getPosition(), seeing[k].position,
                                                 map[i].getPoint(0), map[i].getPoint(m - 1));
-            float current_radius = len(player.getPosition(), point);
+            double current_radius = len(player.getPosition(), point);
             if (current_radius < min) {
                 min = current_radius;
             }
@@ -138,8 +137,8 @@ void Camera::update_rays(Map& map) {
     }
     
     for (int i = 0; i < 360; ++i) {
-        demo_area[i] = sf::Vertex(sf::Vector2f((seeing[i].position - player.getPosition()).x * 1.f,
-                                            (seeing[i].position - player.getPosition()).y * 1.f) + demo.getPosition());
+        demo_area[i] = sf::Vertex(sf::Vector2f((seeing[i].position - player.getPosition()).x * 170.f / seeing_radius,
+                                (seeing[i].position - player.getPosition()).y * 170.f / seeing_radius) + demo.getPosition());
     }
 
     view[0] = sf::Vertex(player.getPosition());
@@ -162,4 +161,20 @@ void Camera::update_rays(Map& map) {
     for (auto& v : view) {
         v.color = sf::Color(190, 145, 125, 120);
     }
+}
+
+std::vector<sf::Vector2f> Camera::getVisiblePoints() const {
+    std::vector<sf::Vector2f> res;
+    double rotation_angle = (direction - 90) * PI / 180;
+    for (int i = view.size(); i > 1; --i) {
+        sf::Vector2f original_vector = view[i].position - player.getPosition();
+        sf::Vector2f rotated_vector(original_vector.x * cos(rotation_angle) - original_vector.y * sin(rotation_angle),
+                                    original_vector.x * sin(rotation_angle) + original_vector.y * cos(rotation_angle));
+        res.push_back(rotated_vector);
+    }
+    return res;
+}
+
+double Camera::getRenderDistance() const {
+    return seeing_radius;
 }
