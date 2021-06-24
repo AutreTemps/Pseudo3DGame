@@ -14,7 +14,7 @@ private:
     const double viewing_angle = 40.f;
     const double movement_speed = 0.1f;
     const double rotation_speed = 0.3f;
-    const double seeing_radius = 240.f;
+    const double seeing_radius = 300.f;
     sf::CircleShape demo;
     std::vector<sf::Vertex> demo_area;
 

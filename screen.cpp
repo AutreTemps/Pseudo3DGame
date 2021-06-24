@@ -3,9 +3,9 @@
 Screen::Screen() {}
 
 void Screen::draw(sf::RenderWindow& window) {
+    playground.draw(window);
     map.draw(window);
     camera.draw(window);
-    playground.draw(window);
     frame.draw(window);
 }
 

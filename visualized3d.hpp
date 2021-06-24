@@ -9,7 +9,7 @@ private:
 
     std::vector<sf::Vector2f> vision;
     double render_distance;
-    const double default_height = 900.f;
+    const double default_height = 1000.f;
     const double min_height = 400.f;
     const double left_border = 395.f;
     const double right_border = 1805.f;

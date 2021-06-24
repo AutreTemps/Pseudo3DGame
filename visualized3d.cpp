@@ -23,7 +23,7 @@ void Playground::draw(sf::RenderWindow& window) const {
             sf::RectangleShape stripe(sf::Vector2f(stripe_width, stripe_height));
             stripe.setOrigin(sf::Vector2f(stripe_width / 2, stripe_height / 2));
             stripe.setPosition(sf::Vector2f(left_border + i * stripe_width, middle_line));
-            stripe.setFillColor(sf::Color(255, 255, 255, 255 * aspect * 0.7));
+            stripe.setFillColor(sf::Color(255 * aspect * aspect, 255 * aspect * aspect, 255 * aspect * aspect, 255));
             window.draw(stripe);
         }
     }
